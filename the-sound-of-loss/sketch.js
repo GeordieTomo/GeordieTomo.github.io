@@ -69,7 +69,7 @@ function draw() {
     for (let x = 0; x < cols; x++) {
       let index = (y + x * width) * 4;
 
-      let C = noise(xoffset,yoffset,zoffset) * 256^3;
+      let C = noise(xoffset,yoffset,zoffset) * 255;
 
       pixels[index + 0] = C;
       pixels[index + 1] = C;

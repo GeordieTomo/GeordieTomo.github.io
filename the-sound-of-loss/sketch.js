@@ -68,18 +68,22 @@ function draw() {
     let xoffset = 0;
     for (let x = 0; x < cols; x++) {
       let index = (y + x * width) * 4;
-      let r = noise(xoffset,yoffset,zoffset) * 100;
-      pixels[index + 0] = r;
-      pixels[index + 1] = r;
-      pixels[index + 2] = r;
+
+      let C = noise(xoffset,yoffset,zoffset) * 256^3;
+
+      pixels[index + 0] = C;
+      pixels[index + 1] = C;
+      pixels[index + 2] = C;
       pixels[index + 3] = 255;
       xoffset += increment;
-      fill(r);
-      stroke(r);
+
+      colorMode(HSB);
+      fill(C, 100, 40);
+      stroke(C, 100, 40);
       rect(x*scale, y*scale, scale, scale);
       stroke(255);
       index = x + y * cols;
-      forcefield[index] = r;
+      forcefield[index] = C;
 
     }
     yoffset += increment;

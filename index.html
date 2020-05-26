@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-
-<!-- saved from url=(0060)https://www.w3schools.com/howto/tryhow_css_parallax_demo.htm ->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-<meta name="viewport" content="width=device-width, initial-scale=1">
--->
+<!-- saved from url=(0049)https://getbootstrap.com/docs/4.4/examples/cover/ -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="geordie">
-    <title>geordie tomo</title>
+    <title>geordie tomo - home</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/cover/">
 
@@ -27,99 +23,28 @@
     <meta name="theme-color" content="#563d7c">
 
 
-<style>
-body, html {
-  height: 100%;
-  margin: 0;
-  font: 400 15px/1.8 "Lato", sans-serif;
-  color: #777;
-}
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
 
-a,
-a:focus,
-a:hover {
-  color: #fff;
-}
-
-
-.bgimg-1, .bgimg-2, .bgimg-3 {
-  position: relative;
-  opacity: 0.65;
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-}
-.bgimg-1 {
-  background-image: url("images/background.PNG");
-  min-height: 110%;
-}
-
-.bgimg-2 {
-  background-image: url("images/MAME-preview.jpg");
-  min-height: 400px;
-}
-
-.bgimg-3 {
-  background-image: url("images/100W-Torch-preview-square.jpg");
-  min-height: 400px;
-}
-
-.bgimg-4 {
-  background-image: url("images/background.PNG");
-  min-height: 120%;
-}
-
-.caption {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 100%;
-  text-align: center;
-  color: #000;
-}
-
-.caption-top {
-  position: absolute;
-  left: 0;
-  top: 45%;
-  width: 100%;
-  text-align: center;
-  color: #000;
-}
-
-.caption-top span.border {
-  background-color: #111;
-  color: #fff;
-  padding: 18px;
-  font-size: 25px;
-  letter-spacing: 10px;
-}
-
-.caption span.border {
-  background-color: #111;
-  color: #fff;
-  padding: 18px;
-  font-size: 25px;
-  letter-spacing: 10px;
-}
-
-h3 {
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  font: 20px "Lato", sans-serif;
-  color: #111;
-}
-
-/* Turn off parallax scrolling for tablets and phones
-@media only screen and (max-device-width: 1024px) {
-  .bgimg-1, .bgimg-2, .bgimg-3 {
-    background-attachment: scroll;
-  }
-}*/
-</style>
-<script data-dapp-detection="">
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+      img {
+        max-width: 100%;
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="./home_files/cover.css" rel="stylesheet">
+  <script data-dapp-detection="">
 (function() {
   let alreadyInsertedMetaTag = false
 
@@ -163,39 +88,37 @@ h3 {
     })
   }
 })()</script></head>
-<body>
 
-<div class="bgimg-1">
-  <div class="caption-top">
-  <a href="home.html"><span class="border btn btn-lg btn-secondary" href="home.html">geordie tomo</span></a>
-  </div>
-</div>
+  <body class="text-center">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <header class="masthead mb-auto">
+    <div class="inner">
+      <h3 class="masthead-brand"><a href="https://geordietomo.github.io/">geordie tomo</a></h3>
+      <img src="images/tomo-white.png" width="50">
+      <nav class="nav nav-masthead justify-content-center">
+        <a class="nav-link active" href="">home</a>
+        <a class="nav-link" href="all-projects.html">all projects</a>
+        <a class="nav-link" href="contact.html">contact</a>
+      </nav>
+    </div>
+  </header>
 
-<div style="color: #777;background-color:white;text-align:center;padding:50px 40px;text-align: justify;">
-  <h3 style="text-align:center;">about me</h3>
-  <p>I am currently studying Electrical Engineering and Arts at University, and this website is a place I share many of my complete or in the works projects. These projects take a wide range including, but not limited to building electrical circuitry, woodworking, music production, game development, interactive art and programming.</p>
-</div>
+  <main role="main" class="inner cover">
+    <h1 class="cover-heading">Featured Project</h1>
+    <p class="lead">Some of my recent 'interactive art' projects use p5.js and aim to evoke a sense of calm and wonder.</p>
+    <div class="lead">
+      <img src="images/the-sound-of-loss-preview.PNG" class="rounded" alt="the sound of loss" width="500">
+    </div></br>
+    <p class="lead">
+      <a href="the-sound-of-loss.html" class="btn btn-lg btn-secondary">view [the sound of loss]</a>
+    </p>
+  </main>
 
-<div class="bgimg-2">
-</div>
-
-<div style="position:relative;">
-  <div style="color:#ddd;background-color:#282E34;text-align:center;padding:10px 80px;text-align: justify;">
-  </div>
-</div>
-
-<div class="bgimg-3">
-</div>
-
-<div style="position:relative;">
-  <div style="color:#ddd;background-color:#282E34;text-align:center;padding:10px 80px;text-align: justify;">
-  </div>
-</div>
-
-<div class="bgimg-1">
-  <div class="caption">
-    <a href="home.html"><span class="border btn btn-lg btn-secondary" href="home.html">view website</span></a>
-  </div>
+  <footer class="mastfoot mt-auto">
+    <div class="inner">
+      <p>this website was created by geordie</p>
+    </div>
+  </footer>
 </div>
 
 

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<!-- saved from url=(0060)https://www.w3schools.com/howto/tryhow_css_parallax_demo.htm ->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+-->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="geordie">
+    <title>geordie tomo</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/cover/">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="images/tomo.png" sizes="180x180">
+    <link rel="icon" href="images/tomo.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="images/tomo.png" sizes="16x16" type="image/png">
+    <link rel="manifest" href="https://getbootstrap.com/docs/4.4/assets/img/favicons/manifest.json">
+    <link rel="mask-icon" href="images/tomo.png" color="#563d7c">
+    <link rel="icon" href="images/tomo.png">
+    <meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#563d7c">
+
+
+<style>
+body, html {
+  height: 100%;
+  margin: 0;
+  font: 400 15px/1.8 "Lato", sans-serif;
+  color: #777;
+}
+
+a,
+a:focus,
+a:hover {
+  color: #fff;
+}
+
+
+.bgimg-1, .bgimg-2, .bgimg-3 {
+  position: relative;
+  opacity: 0.65;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+.bgimg-1 {
+  background-image: url("images/background.PNG");
+  min-height: 110%;
+}
+
+.bgimg-2 {
+  background-image: url("images/MAME-preview.jpg");
+  min-height: 400px;
+}
+
+.bgimg-3 {
+  background-image: url("images/100W-Torch-preview-square.jpg");
+  min-height: 400px;
+}
+
+.bgimg-4 {
+  background-image: url("images/background.PNG");
+  min-height: 120%;
+}
+
+.caption {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  color: #000;
+}
+
+.caption-top {
+  position: absolute;
+  left: 0;
+  top: 45%;
+  width: 100%;
+  text-align: center;
+  color: #000;
+}
+
+.caption-top span.border {
+  background-color: #111;
+  color: #fff;
+  padding: 18px;
+  font-size: 25px;
+  letter-spacing: 10px;
+}
+
+.caption span.border {
+  background-color: #111;
+  color: #fff;
+  padding: 18px;
+  font-size: 25px;
+  letter-spacing: 10px;
+}
+
+h3 {
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font: 20px "Lato", sans-serif;
+  color: #111;
+}
+
+/* Turn off parallax scrolling for tablets and phones
+@media only screen and (max-device-width: 1024px) {
+  .bgimg-1, .bgimg-2, .bgimg-3 {
+    background-attachment: scroll;
+  }
+}*/
+</style>
+<script data-dapp-detection="">
+(function() {
+  let alreadyInsertedMetaTag = false
+
+  function __insertDappDetected() {
+    if (!alreadyInsertedMetaTag) {
+      const meta = document.createElement('meta')
+      meta.name = 'dapp-detected'
+      document.head.appendChild(meta)
+      alreadyInsertedMetaTag = true
+    }
+  }
+
+  if (window.hasOwnProperty('web3')) {
+    // Note a closure can't be used for this var because some sites like
+    // www.wnyc.org do a second script execution via eval for some reason.
+    window.__disableDappDetectionInsertion = true
+    // Likely oldWeb3 is undefined and it has a property only because
+    // we defined it. Some sites like wnyc.org are evaling all scripts
+    // that exist again, so this is protection against multiple calls.
+    if (window.web3 === undefined) {
+      return
+    }
+    if (!window.web3.currentProvider ||
+        !window.web3.currentProvider.isMetaMask) {
+      __insertDappDetected()
+    }
+  } else {
+    var oldWeb3 = window.web3
+    Object.defineProperty(window, 'web3', {
+      configurable: true,
+      set: function (val) {
+        if (!window.__disableDappDetectionInsertion)
+          __insertDappDetected()
+        oldWeb3 = val
+      },
+      get: function () {
+        if (!window.__disableDappDetectionInsertion)
+          __insertDappDetected()
+        return oldWeb3
+      }
+    })
+  }
+})()</script></head>
+<body>
+
+<div class="bgimg-1">
+  <div class="caption-top">
+  <a href="index.html"><span class="border btn btn-lg btn-secondary" href="index.html">geordie tomo</span></a>
+  </div>
+</div>
+
+<div style="color: #777;background-color:white;text-align:center;padding:50px 40px;text-align: justify;">
+  <h3 style="text-align:center;">about me</h3>
+  <p>I am currently studying Electrical Engineering and Arts at University, and this website is a place I share many of my complete or in the works projects. These projects take a wide range including, but not limited to building electrical circuitry, woodworking, music production, game development, interactive art and programming.</p>
+</div>
+
+<div class="bgimg-2">
+</div>
+
+<div style="position:relative;">
+  <div style="color:#ddd;background-color:#282E34;text-align:center;padding:10px 80px;text-align: justify;">
+  </div>
+</div>
+
+<div class="bgimg-3">
+</div>
+
+<div style="position:relative;">
+  <div style="color:#ddd;background-color:#282E34;text-align:center;padding:10px 80px;text-align: justify;">
+  </div>
+</div>
+
+<div class="bgimg-1">
+  <div class="caption">
+    <a href="index.html"><span class="border btn btn-lg btn-secondary" href="index.html">view website</span></a>
+  </div>
+</div>
+
+
+</body></html>

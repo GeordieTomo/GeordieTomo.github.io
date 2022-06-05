@@ -1,126 +1,240 @@
 <!DOCTYPE html>
-<!-- saved from url=(0049)https://getbootstrap.com/docs/4.4/examples/cover/ -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Geordie McClelland</title>
+	<link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+	<main>
+		<div class="logo">
+			<p class="type-primary">hello, my name is</p>
+			<h1 class="logo"><a href="/">Geordie</a></h1>
+		</div>
+		<div class="about">
+			<p class="about-content type-primary"></p>
+			<p class="about-content type-primary"></p>
+			<p class="about-content type-primary"></p>
+		</div>
+		<section class="timeline">
+			<div class="spacer">
+				<article class="timeline-entry">
+					<h2 class="timeline-co type-primary"><a href="https://www.zedtechnologies.com.au/">Zed Technologies</a> <span class="timeline-time">2021 – Present</span></h2 class="timeline-co">
+					<div class="timeline-description">
+						<p>I'm a Junior Support Consultant at Zed. I resolve around 100 tickets per day. I've worked on proposals and projects to minimise the number of tickets logged. I also access and manage remote servers for a large number of customers to keep the services running smoothly.</p>
+					</div>
+				</article>
+			</div>
+			<div class="spacer">
+				<article class="timeline-entry">
+					<h2 class="timeline-co type-primary"><a href="https://www.mymi.org.au/">Monash Young MedTech Innovators</a> <span class="timeline-time">2020 – Present</span></h2 class="timeline-co">
+					<div class="timeline-description">
+						<p>As a project lead for <a href="https://www.mymi.org.au/project-psss">Project PSSS</a> throughout 2020 and 2021, I managed a team of engineering students, organising weekly meetings and tracking progress. We are working in direct collaboration with stakeholders from the Department of Health. To date, we have raised over $6,000 in funding for prototyping and artwork commission among other project costs.</p>
+					</div>
+				</article>
+			</div>
+			<div class="spacer">
+				<article class="timeline-entry">
+					<h2 class="timeline-co type-primary"><a href="https://ashburtonbaptist.org.au/">Ashburton Baptist Church</a> <span class="timeline-time">2020 – 2022</span></h2 class="timeline-co">
+					<div class="timeline-description">
+						<p>I organised and ran youth and young adults activities, with ages ranging from 12-28 years old. I maintained engagement, leading weekly activities with the high school youth group.</p>
+					</div>
+				</article>
+			</div>
+		</section>
+		<footer>
+			<div class="footer-content">
+				<p>I also have a <a href="https://www.youtube.com/c/geordietomo">YouTube channel</a>. You can contact me via <a href="mailto:geordie.t.mcclelland@gmail.com">Email</a>.</p>
+			</div>
+		</footer>
+		<div id="subtitlesDiv" class="type-primary">
+		</div>
+	</main>
+	
+	<script id="terrainVertex" type="x-shader/x-vertex">
+		vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+		vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+		vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="geordie">
-    <title>geordie tomo - home</title>
+		//
+		// Description : GLSL 2D simplex noise function
+		//      Author : Ian McEwan, Ashima Arts
+		//  Maintainer : ijm
+		//     Lastmod : 20110822 (ijm)
+		//     License :
+		//  Copyright (C) 2011 Ashima Arts. All rights reserved.
+		//  Distributed under the MIT License. See LICENSE file.
+		//  https://github.com/ashima/webgl-noise
+		//
+		float snoise(vec2 v) {
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/cover/">
+			// Precompute values for skewed triangular grid
+			const vec4 C = vec4(0.211324865405187,
+								// (3.0-sqrt(3.0))/6.0
+								0.366025403784439,
+								// 0.5*(sqrt(3.0)-1.0)
+								-0.577350269189626,
+								// -1.0 + 2.0 * C.x
+								0.024390243902439);
+								// 1.0 / 41.0
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+			// First corner (x0)
+			vec2 i  = floor(v + dot(v, C.yy));
+			vec2 x0 = v - i + dot(i, C.xx);
 
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" href="images/tomo.png" sizes="180x180">
-    <link rel="icon" href="images/tomo.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="images/tomo.png" sizes="16x16" type="image/png">
-    <link rel="manifest" href="https://getbootstrap.com/docs/4.4/assets/img/favicons/manifest.json">
-    <link rel="mask-icon" href="images/tomo.png" color="#563d7c">
-    <link rel="icon" href="images/tomo.png">
-    <meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
-    <meta name="theme-color" content="#563d7c">
+			// Other two corners (x1, x2)
+			vec2 i1 = vec2(0.0);
+			i1 = (x0.x > x0.y)? vec2(1.0, 0.0):vec2(0.0, 1.0);
+			vec2 x1 = x0.xy + C.xx - i1;
+			vec2 x2 = x0.xy + C.zz;
 
+			// Do some permutations to avoid
+			// truncation effects in permutation
+			i = mod289(i);
+			vec3 p = permute(
+					permute( i.y + vec3(0.0, i1.y, 1.0))
+						+ i.x + vec3(0.0, i1.x, 1.0 ));
 
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
+			vec3 m = max(0.5 - vec3(
+								dot(x0,x0),
+								dot(x1,x1),
+								dot(x2,x2)
+								), 0.0);
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-      img {
-        max-width: 100%;
-      }
-    </style>
-    <!-- Custom styles for this template -->
-    <link href="./home_files/cover.css" rel="stylesheet">
-  <script data-dapp-detection="">
-(function() {
-  let alreadyInsertedMetaTag = false
+			m = m*m ;
+			m = m*m ;
 
-  function __insertDappDetected() {
-    if (!alreadyInsertedMetaTag) {
-      const meta = document.createElement('meta')
-      meta.name = 'dapp-detected'
-      document.head.appendChild(meta)
-      alreadyInsertedMetaTag = true
-    }
-  }
+			// Gradients:
+			//  41 pts uniformly over a line, mapped onto a diamond
+			//  The ring size 17*17 = 289 is close to a multiple
+			//      of 41 (41*7 = 287)
 
-  if (window.hasOwnProperty('web3')) {
-    // Note a closure can't be used for this var because some sites like
-    // www.wnyc.org do a second script execution via eval for some reason.
-    window.__disableDappDetectionInsertion = true
-    // Likely oldWeb3 is undefined and it has a property only because
-    // we defined it. Some sites like wnyc.org are evaling all scripts
-    // that exist again, so this is protection against multiple calls.
-    if (window.web3 === undefined) {
-      return
-    }
-    if (!window.web3.currentProvider ||
-        !window.web3.currentProvider.isMetaMask) {
-      __insertDappDetected()
-    }
-  } else {
-    var oldWeb3 = window.web3
-    Object.defineProperty(window, 'web3', {
-      configurable: true,
-      set: function (val) {
-        if (!window.__disableDappDetectionInsertion)
-          __insertDappDetected()
-        oldWeb3 = val
-      },
-      get: function () {
-        if (!window.__disableDappDetectionInsertion)
-          __insertDappDetected()
-        return oldWeb3
-      }
-    })
-  }
-})()</script></head>
+			vec3 x = 2.0 * fract(p * C.www) - 1.0;
+			vec3 h = abs(x) - 0.5;
+			vec3 ox = floor(x + 0.5);
+			vec3 a0 = x - ox;
 
-  <body class="text-center">
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-  <header class="masthead mb-auto">
-    <div class="inner">
-      <h3 class="masthead-brand"><a href="https://geordietomo.github.io/">geordie tomo</a></h3>
-      <img src="images/tomo-white.png" width="50">
-      <nav class="nav nav-masthead justify-content-center">
-        <a class="nav-link active" href="">home</a>
-        <a class="nav-link" href="all-projects.html">all projects</a>
-        <a class="nav-link" href="contact.html">contact</a>
-        <a class="nav-link" href="about.html">about</a>
-      </nav>
-    </div>
-  </header>
+			// Normalise gradients implicitly by scaling m
+			// Approximation of: m *= inversesqrt(a0*a0 + h*h);
+			m *= 1.79284291400159 - 0.85373472095314 * (a0*a0+h*h);
 
-  <main role="main" class="inner cover">
-    <h1 class="cover-heading">Featured Project</h1>
-    <p class="lead">Some of my recent 'interactive art' projects use p5.js and aim to evoke a sense of calm and wonder.</p>
-    <div class="lead">
-      <img src="images/the-sound-of-loss-preview.PNG" class="rounded" alt="the sound of loss" width="500">
-    </div></br>
-    <p class="lead">
-      <a href="the-sound-of-loss.html" class="btn btn-lg btn-secondary">view [the sound of loss]</a>
-    </p>
-  </main>
+			// Compute final noise value at P
+			vec3 g = vec3(0.0);
+			g.x  = a0.x  * x0.x  + h.x  * x0.y;
+			g.yz = a0.yz * vec2(x1.x,x2.x) + h.yz * vec2(x1.y,x2.y);
+			return 130.0 * dot(m, g);
+		}
 
-  <footer class="mastfoot mt-auto">
-    <div class="inner">
-      <p>this website was created by geordie</p>
-    </div>
-  </footer>
-</div>
+		varying float vAmount;
+		uniform float time;
+		uniform float scale;
+		
+		void main() {
 
+			vec2 st = uv*scale - vec2(.5,.5)*scale + vec2(0.,time/4.);
 
-</body></html>
+			vAmount = snoise(st) 
+			+ 0.5*snoise(st*2.) 
+			+ 0.25*snoise(st*4.)
+			+ 0.125*snoise(st*8.)
+			+ 0.0625*snoise(st*16.)
+			+ 0.03125*snoise(st*32.)
+			+ 0.015625*snoise(st*64.)
+			+ 0.0078125*snoise(st*128.);
+
+			vAmount = (vAmount / 1.9921875);
+
+			vec3 newPosition = position + normal * 40.0 * vAmount / scale;
+		
+			gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition,1);
+		}
+	</script>
+	<script id="terrainFragment" type="x-shader/x-fragment">
+		varying float vAmount;
+
+		uniform vec3 fogColor;
+		uniform float fogNear;
+		uniform float fogFar;
+
+		uniform float scale;
+
+		void main() {
+			vec3 water = (smoothstep(-.3, 0.35, vAmount) - smoothstep(0.34,0.35,vAmount)) * vec3(0.,0.,1.);
+			vec3 sand = (smoothstep(0.3,0.32,vAmount) - smoothstep(0.3,0.4,vAmount)) * vec3(0.76, 0.7, 0.5);
+			vec3 grass = (smoothstep(0.3,0.46,vAmount) - smoothstep(0.33,0.6,vAmount)) * vec3(0.0, 0.6, 0.01);
+			vec3 rock = (smoothstep(0.43,0.75,vAmount) - smoothstep(0.5,0.85,vAmount)) * vec3(0.28, 0.25, 0.23);
+			vec3 snow = (smoothstep(0.7,0.8,vAmount)) * vec3(1., 1., 1.);
+			vec3 col = (water+sand+grass+rock+snow);
+			
+			float depth = gl_FragCoord.z / gl_FragCoord.w;
+			float fogFactor = smoothstep(fogNear,fogFar,depth);
+			float alpha = smoothstep(7.,6.5,scale);
+
+			gl_FragColor = vec4(col, alpha);
+		}
+	</script>
+	<script id="earthVertex" type="x-shader/x-vertex">
+		varying vec2 vertexUV;
+		varying vec3 vertexNormal;
+
+		void main() {
+			vertexUV = uv;
+			vertexNormal = normalize(normalMatrix*normal);
+			gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.);
+		}
+	</script>
+	<script id="earthFragment" type="x-shader/x-fragment">
+		uniform sampler2D earthTexture;
+		
+		varying vec2 vertexUV;
+		varying vec3 vertexNormal;
+
+		void main() {
+			float intensity = 1.05 - dot(vertexNormal, vec3(0.0,0.0,1.0));
+			vec3 atmosphere = vec3(0.3,0.6,1.0) * pow(intensity,1.5);
+
+			vec3 col = atmosphere + texture2D(earthTexture, vertexUV).xyz;
+
+			gl_FragColor = vec4(col,1.);
+		}
+	</script>
+	<script id="atmosVertex" type="x-shader/x-vertex">
+		varying vec3 vertexNormal;
+
+		void main() {
+			vertexNormal = normalize(normalMatrix*normal);
+			gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.);
+		}
+	</script>
+	<script id="atmosFragment" type="x-shader/x-fragment">
+		varying vec3 vertexNormal;
+
+		void main() {
+			float intensity = pow(0.35 - dot(vertexNormal, vec3(0.,0.,1.)),2.);
+			gl_FragColor = vec4(0.3,0.6,1.,1.) * intensity;
+		}
+	</script>	
+	<script id="screenVertex" type="x-shader/x-vertex">
+		varying vec2 vertexUV;
+
+		void main() {
+			vertexUV = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.);
+		}
+	</script>
+	<script id="screenFragment" type="x-shader/x-fragment">
+		uniform sampler2D screenTexture;
+		uniform float fade;
+
+		varying vec2 vertexUV;
+
+		void main() {
+			vec3 col = texture2D(screenTexture, vertexUV).xyz;
+			gl_FragColor = vec4(col * fade,1.);
+		}
+	</script>	
+	<script type="module" src="js/main.js"></script>
+	<script data-goatcounter="https://geordietomo.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

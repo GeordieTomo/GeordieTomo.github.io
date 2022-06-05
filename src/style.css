@@ -1,0 +1,216 @@
+/* CSS Mini Reset */
+html, body, div, form, fieldset, legend, label { margin: 0; padding: 0;  }
+table { border-collapse: collapse; border-spacing: 0; }
+th, td { text-align: left; vertical-align: top; }
+h1, h2, h3, h4, h5, h6, th, td, caption { font-weight:normal; }
+img { border: 0; }
+
+/* Site Styles */
+
+:root {
+    --c-primary: rgb(185, 159, 255);
+    --c-secondary: rgba(255, 255, 255, 0.85);
+    --c-tertiary: rgba(64, 64, 64, 0.5);
+    
+    --v-space: 6rem;
+    --canvas-height: 80vh;
+    --f-weight: 600;
+    --border-radius: min(1vw, var(--v-space));
+}
+
+html {
+    font-size: 16px;
+    line-height: 1.5;
+    background: rgb(9, 9, 9);
+    /* font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; */
+    font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+    color: var(--c-secondary);
+    box-sizing: border-box;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+}
+
+a {
+    color: var(--c-primary);
+    font-weight: var(--f-weight);
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 6fr 4fr 1fr;
+    grid-template-rows: 10vh 50vh auto auto;
+    grid-template-areas:
+    ". . . ."
+    ". header header ."
+    ". about about ."
+    ". timeline timeline ."
+    "footer footer footer footer";
+}
+
+.logo {
+    z-index: 2;
+    /* margin: var(--v-space) 0 0 0; */
+    opacity: 1;
+    
+    grid-area: header;
+    align-self: end;
+}
+
+.logo a {
+    font-size: 6.5rem;
+    font-weight: 700;
+    line-height: 0.8;
+    text-decoration: none;
+}
+
+.type-primary {
+    font-weight: var(--f-weight);
+    font-size: 3rem;
+    line-height: 1.4;
+}
+
+.about {
+    z-index: 2;
+    grid-area: about;
+}
+
+.about-content {
+    z-index: 2;
+    height: 150vh;
+    display: flex;
+    align-items: center;
+    
+    color: rgba(0,0,0,0);
+    width:1px
+}
+
+
+.timeline {
+    grid-area: timeline;
+}
+
+.spacer {
+    height: 150vh;
+}
+
+.timeline-entry {
+    z-index: 2;
+    background: var(--c-tertiary);
+    backdrop-filter: saturate(180%) blur(40px);
+    -webkit-backdrop-filter: saturate(180%) blur(40px);
+    border-radius: var(--border-radius);
+    
+    position: relative;
+    padding: calc(var(--v-space)/2) 0;
+    
+    display: grid;
+    grid-template-columns: 1fr 5fr 5fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    ". co description .";
+}
+
+.timeline-co {
+    margin: calc(var(--v-space) * .5) 0 0;
+    grid-area: co;
+}
+
+.timeline-co a {
+    color: var(--c-primary);
+}
+
+.timeline-time {
+    display: block;
+    font-style: italic;
+}
+
+.timeline-description {
+    margin: calc(var(--v-space) * .5) 0 0;
+    font-weight: normal;
+    font-size: 1.5rem;
+    line-height: 1.4;
+    
+    grid-area: description;
+}
+
+footer {
+    grid-area: footer;
+    
+    display: grid;
+    grid-template-columns: 1fr 5fr 5fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    ". p p ."
+}
+
+footer .footer-content {
+    z-index: 1;
+    padding: var(--v-space) 0;
+    font-weight: var(--f-weight);
+    font-size: 1.5rem;
+    line-height: 1.4;
+    
+    grid-area: p;
+}
+
+#subtitlesDiv{
+    position:fixed;
+    z-index:3;
+    bottom:2rem;
+    display:flex;
+    justify-content:center;
+    width:100%;
+
+    display: grid;
+    grid-template-columns: 1fr 10fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    ". sub ."
+}
+@media screen and (orientation:portrait){
+
+}
+
+#subtitles{
+    background: var(--c-tertiary);
+    backdrop-filter: saturate(180%) blur(40px);
+    -webkit-backdrop-filter: saturate(180%) blur(40px);
+
+    grid-area: sub;
+    border-radius: var(--border-radius);
+    color:#fff;
+    padding:.5vh 2vh;
+    text-align:center;
+}
+
+@media screen and (orientation:portrait){
+    #subtitlesDiv{
+        top:2rem;bottom:auto
+    }
+    :root {
+        --v-space: 3rem;
+    }
+    main {
+        grid-template-columns: 1fr 10fr 0fr 1fr;
+    }
+    .timeline-entry {
+        grid-template-columns: 1fr 5fr 5fr 1fr;
+        grid-template-rows: 1fr auto;
+        grid-template-areas:
+        ". hr hr ."
+        ". co co ."
+        ". description description .";
+    }
+}

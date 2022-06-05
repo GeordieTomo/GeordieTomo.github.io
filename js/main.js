@@ -288,7 +288,7 @@ function init() {
 	bloom.threshold = 0.9;
 	bloom.strength = 0.1;
 	bloom.radius = 1.;
-	composer.addPass(bloom);
+	// composer.addPass(bloom);
 }
 
 // --------------------------------------- MAIN LOOP -------------------------------------------
@@ -485,7 +485,7 @@ function animateStars(pct){
 
 function glitchEffects() {
 	if (((tSmooth > 0.46 && tSmooth < 0.48) || (tSmooth > 0.18 && tSmooth < 0.2))) {
-		if (composer.passes.length < 3){
+		if (composer.passes.length < 2){
 			composer.addPass(glitch);
 			glitch.goWild = true;
 			glitchCounter = 0;
@@ -501,7 +501,7 @@ function glitchEffects() {
 		}
 
 	}
-	else if (composer.passes.length > 2) {
+	else if (composer.passes.length > 1) {
 		glitchCounter++;
 		if (glitchCounter > 20) {
 			composer.passes.pop();

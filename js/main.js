@@ -1,7 +1,6 @@
 /*
 TODO LIST:
 
-- update abc
 - ppm
 
 - improve desktop lighting
@@ -273,7 +272,7 @@ function init() {
 	subtitleDiv.id = "subtitles";
 
 	// getting document scroll amount
-	t = -document.body.getBoundingClientRect().top/(document.body.offsetHeight-window.innerHeight);
+	t = -document.body.getBoundingClientRect().top/(window.innerHeight);
 	tSmooth = t;
 	deskSmooth = 0;
 	// track global time
@@ -305,39 +304,39 @@ var animate = function () {
 
 	glitchEffects();
 
-	animateTerrain(map(tSmooth,0,0.2,0,1));
+	animateTerrain(map(tSmooth,0,1.78,0,1));
 
-	animateEarth(map(tSmooth,0.18,0.36,0,1));
+	animateEarth(map(tSmooth,1.6,3.2,0,1));
 
-	animateFog(map(tSmooth,0.3,0.45,0,1));
+	animateFog(map(tSmooth,2.68,4,0,1));
 
-	animateWindmill(map(tSmooth,0.34,0.47,0,1));
+	animateWindmill(map(tSmooth,3,4.2,0,1));
 
-	animateDesk(smoothstep(0.47,0.53,tSmooth),smoothstep(0.5,1.,tSmooth));
+	animateDesk(smoothstep(4.2,4.74,tSmooth),smoothstep(4.7,8.89,tSmooth));
 
-	animateStars(smoothstep(0.18,0.5,tSmooth));
-
+	animateStars(smoothstep(1.6,4.47,tSmooth));
 
 	composer.render();
+
 };
 
 init();
 animate();
 
 function subtitles() {
-	if (tSmooth >= 0.046 && tSmooth < 0.19) {
+	if (tSmooth >= 0.6 && tSmooth < 1.7) {
 		if (subtitleState != 1) {	
 			subtitleDiv.innerHTML = "I'm an interdisciplinary creative, currently studying Electrical Engineering and Arts";
 			htmlSubtitleDiv.append(subtitleDiv);
 			subtitleState = 1;
 		}
-	} else if (tSmooth >= 0.19 && tSmooth < 0.34) {
+	} else if (tSmooth >= 1.7 && tSmooth < 3.1) {
 		if (subtitleState != 2) {	
 			subtitleDiv.innerHTML = "I was born in Japan, and I moved to Australia when I was 6 months old";
 			htmlSubtitleDiv.append(subtitleDiv);
 			subtitleState = 2;
 		}
-	}  else if (tSmooth >= 0.34 && tSmooth < 0.47) {
+	}  else if (tSmooth >= 3.1 && tSmooth < 4.1) {
 		if (subtitleState != 3) {	
 			subtitleDiv.innerHTML = "I love music, electronics, basketball and I am passionate about all things sustainable";
 			htmlSubtitleDiv.append(subtitleDiv);
@@ -446,15 +445,15 @@ function animateDesk(pct,finalPct) {
 
 		screenUniforms['fade'].value = pct;
 
-		if (tSmooth < 0.63) {
+		if (tSmooth < 5.5) {
 			screenUniforms['screenTexture'].value = zedTex;
 			screenState = 1;
 		}
-		else if (tSmooth < 0.8) {
+		else if (tSmooth < 7) {
 			screenUniforms['screenTexture'].value = mymiTex;
 			screenState = 2;
 		}
-		else if (tSmooth < 0.948) {
+		else if (tSmooth < 8.5) {
 			screenUniforms['screenTexture'].value = abcTex;
 			screenState = 3;
 		}
@@ -483,13 +482,13 @@ function animateStars(pct){
 }
 
 function glitchEffects() {
-	if (((tSmooth > 0.46 && tSmooth < 0.48) || (tSmooth > 0.18 && tSmooth < 0.2))) {
+	if (((tSmooth > 1.6 && tSmooth < 1.8) || (tSmooth > 4.1 && tSmooth < 4.3))) {
 		if (composer.passes.length < 2){
 			composer.addPass(glitch);
 			glitch.goWild = true;
 			glitchCounter = 0;
 		}
-		if ((tSmooth > 0.469 && tSmooth < 0.471) || (tSmooth > 0.189 && tSmooth < 0.191)) {
+		if ((tSmooth > 1.69 && tSmooth < 1.71) || (tSmooth > 4.19 && tSmooth < 4.21)) {
 			glitch.goWild = true;
 			glitchCounter = 0;
 		}
@@ -511,7 +510,7 @@ function glitchEffects() {
 // ----------------------------------------------------------------------------------------------
 // tracking the document scroll amount when it changes
 function updateScroll() {
-	t = -document.body.getBoundingClientRect().top/(document.body.offsetHeight-window.innerHeight);
+	t = -document.body.getBoundingClientRect().top/(window.innerHeight);
 }
 document.body.onscroll = updateScroll;
 

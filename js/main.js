@@ -1,8 +1,9 @@
 /*
 TODO LIST:
 
-- music instrument & windmill
-- make stars circles
+- update abc
+- ppm
+
 - improve desktop lighting
 
 */
@@ -17,8 +18,6 @@ import { EffectComposer } from 'https://unpkg.com/three@0.119.1/examples/jsm/pos
 import { RenderPass } from 'https://unpkg.com/three@0.119.1/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'https://unpkg.com/three@0.119.1/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { GlitchPass } from 'https://unpkg.com/three@0.119.1/examples/jsm/postprocessing/GlitchPass.js';
-
-import { RectAreaLightHelper } from 'https://unpkg.com/three@0.119.1/examples/jsm/helpers/RectAreaLightHelper.js';
 
 // create the scene
 scene = new THREE.Scene();
@@ -158,7 +157,7 @@ function init() {
 		color: 0x111111
 	});
 	const windmillMat = new THREE.MeshStandardMaterial({
-		emissive: 0xffffff
+		emissive: 0x777777
 	})
 
 	screenUniforms = {
@@ -328,7 +327,7 @@ animate();
 function subtitles() {
 	if (tSmooth >= 0.046 && tSmooth < 0.19) {
 		if (subtitleState != 1) {	
-			subtitleDiv.innerHTML = "I'm an Electrical Engineering and Arts Student, and a full time creative";
+			subtitleDiv.innerHTML = "I'm an interdisciplinary creative, currently studying Electrical Engineering and Arts";
 			htmlSubtitleDiv.append(subtitleDiv);
 			subtitleState = 1;
 		}

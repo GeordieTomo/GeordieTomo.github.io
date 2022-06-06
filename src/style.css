@@ -6,47 +6,47 @@ h1, h2, h3, h4, h5, h6, th, td, caption { font-weight:normal; }
 img { border: 0; }
 
 /* Site Styles */
-
+/* global vars */
 :root {
     --c-primary: rgb(185, 159, 255);
     --c-secondary: rgba(255, 255, 255, 0.85);
     --c-tertiary: rgba(64, 64, 64, 0.5);
     
     --v-space: 6rem;
-    --canvas-height: 80vh;
-    --f-weight: 600;
-    --border-radius: min(1vw, var(--v-space));
+    --border-radius: 1vw;
+}
+
+/* defaults */
+@font-face {
+    font-family: "Metropolis";
+    src: url(fonts/Metropolis-Thin.otf);
 }
 
 html {
     font-size: 16px;
     line-height: 1.5;
     background: rgb(9, 9, 9);
-    /* font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; */
-    font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+    font-family: Metropolis, sans-serif;
     color: var(--c-secondary);
     box-sizing: border-box;
 }
 
+/* canvas for the three js program */
 canvas {
     position: fixed;
     top: 0;
-    right: 0;
-    left: 0;
-    height: 100vh;
     z-index: 0;
-    pointer-events: none;
 }
 
 a {
     color: var(--c-primary);
-    font-weight: var(--f-weight);
 }
 
 a:hover {
     text-decoration: none;
 }
 
+/* Main grid layout */
 main {
     display: grid;
     grid-template-columns: 1fr 6fr 4fr 1fr;
@@ -60,24 +60,21 @@ main {
 }
 
 .logo {
-    z-index: 2;
-    /* margin: var(--v-space) 0 0 0; */
-    opacity: 1;
-    
+    z-index: 1;
+
     grid-area: header;
     align-self: end;
 }
 
 .logo a {
     font-size: 6.5rem;
-    font-weight: 700;
     line-height: 0.8;
     text-decoration: none;
 }
 
 .type-primary {
-    font-weight: var(--f-weight);
     font-size: 3rem;
+    font-weight: 600;
     line-height: 1.4;
 }
 
@@ -93,7 +90,6 @@ main {
     align-items: center;
     
     color: rgba(0,0,0,0);
-    width:1px
 }
 
 
@@ -123,7 +119,7 @@ main {
 }
 
 .timeline-co {
-    margin: calc(var(--v-space) * .5) 0 0;
+    margin: calc(var(--v-space)/2) 0 0;
     grid-area: co;
 }
 
@@ -137,7 +133,7 @@ main {
 }
 
 .timeline-description {
-    margin: calc(var(--v-space) * .5) 0 0;
+    margin: calc(var(--v-space)/2) 0 0;
     font-weight: normal;
     font-size: 1.5rem;
     line-height: 1.4;
@@ -158,7 +154,6 @@ footer {
 footer .footer-content {
     z-index: 1;
     padding: var(--v-space) 0;
-    font-weight: var(--f-weight);
     font-size: 1.5rem;
     line-height: 1.4;
     
@@ -179,9 +174,6 @@ footer .footer-content {
     grid-template-areas:
     ". sub ."
 }
-@media screen and (orientation:portrait){
-
-}
 
 #subtitles{
     background: var(--c-tertiary);
@@ -190,9 +182,12 @@ footer .footer-content {
 
     grid-area: sub;
     border-radius: var(--border-radius);
-    color:#fff;
+    color: var(--c-secondary);
     padding:.5vh 2vh;
     text-align:center;
+
+    font-size: 3rem;
+    line-height: 1.4;
 }
 
 @media screen and (orientation:portrait){
@@ -201,6 +196,9 @@ footer .footer-content {
     }
     :root {
         --v-space: 3rem;
+    }
+    .timeline-description {
+        font-size: 2rem;
     }
     main {
         grid-template-columns: 1fr 10fr 0fr 1fr;
@@ -213,4 +211,4 @@ footer .footer-content {
         ". co co ."
         ". description description .";
     }
-}
+}                                                                                                                                           

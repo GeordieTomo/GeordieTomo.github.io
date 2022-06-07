@@ -192,8 +192,8 @@ main {
 
 .Menu{
     position:fixed;
-    right:1rem;
-    top:1rem;
+    right:2rem;
+    top:2rem;
     z-index:10;
     text-align:right;
     transform-origin:bottom right;
@@ -235,8 +235,8 @@ main {
 .sidebar{
     z-index: 9;
     position:fixed;
-    right:1rem;
-    bottom:1rem;
+    right:2rem;
+    bottom:2rem;
     transform:rotate(-90deg) translateX(100%);
     transform-origin:bottom right;
     font-size:1.25rem;

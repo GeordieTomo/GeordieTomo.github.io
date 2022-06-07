@@ -13,7 +13,6 @@ import { OBJLoader } from 'https://unpkg.com/three@0.119.1/examples/jsm/loaders/
 // import postprocessing
 import { EffectComposer } from 'https://unpkg.com/three@0.119.1/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'https://unpkg.com/three@0.119.1/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'https://unpkg.com/three@0.119.1/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { GlitchPass } from 'https://unpkg.com/three@0.119.1/examples/jsm/postprocessing/GlitchPass.js';
 
 // create the scene
@@ -23,7 +22,7 @@ var camera,scene,renderer,composer;
 var dirlight1, dirlight2, rectlight, ambient;
 var time, t, tSmooth,deskSmooth;
 var screen, zedTex, mymiTex, abcTex, ppmTex, ytTex, starTex, screenState;
-var glitch, glitchCounter, bloom;
+var glitch, glitchCounter;
 var hoverScreen = false;
 
 var width = window.innerWidth;
@@ -284,11 +283,8 @@ function init() {
 	composer = new EffectComposer(renderer);
 	composer.addPass(new RenderPass(scene,camera));
 	glitch = new GlitchPass();
-	bloom = new UnrealBloomPass();
-	bloom.threshold = 0.9;
-	bloom.strength = 0.1;
-	bloom.radius = 1.;
-	// composer.addPass(bloom);
+
+	console.log("Hey there!\n\nThanks for stopping by.\n\nIf you want to check out the code for this website, it's all available to view on GitHub: https://github.com/GeordieTomo/GeordieTomo.github.io \n\nThis website was made with Three js and then just pure CSS and JavaScript.")
 }
 
 // --------------------------------------- MAIN LOOP -------------------------------------------

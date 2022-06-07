@@ -318,8 +318,6 @@ var animate = function () {
 
 	animateStars(smoothstep(1.6,4.47,tSmooth));
 
-	console.log(tSmooth);
-
 	composer.render();
 
 };

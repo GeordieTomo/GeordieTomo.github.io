@@ -16,17 +16,18 @@ img { border: 0; }
     --border-radius: 1vw;
 }
 
-/* defaults */
 @font-face {
-    font-family: "Metropolis";
-    src: url(fonts/Metropolis-Thin.otf);
+    font-family: "Montserrat";
+    src: url(fonts/Montserrat-VariableFont_wght.ttf);
+    font-weight: 100 1000;
 }
 
+/* defaults */
 html {
     font-size: 16px;
     line-height: 1.5;
     background: rgb(9, 9, 9);
-    font-family: Metropolis, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: var(--c-secondary);
     box-sizing: border-box;
 }
@@ -36,14 +37,24 @@ canvas {
     position: fixed;
     top: 0;
     z-index: 0;
+    
+    opacity: 0;
+    animation-fill-mode: forwards;
+    animation-name: FadeIn;
+    animation-delay: 0s;
+    animation-duration: 1s;
+    transition-timing-function: ease-in;
 }
 
 a {
     color: var(--c-primary);
+    opacity:.6;
+    text-decoration:none;
+    transition:opacity .5s;
 }
 
 a:hover {
-    text-decoration: none;
+    opacity: 1;
 }
 
 /* Main grid layout */
@@ -59,22 +70,70 @@ main {
     "footer footer footer footer";
 }
 
-.logo {
+.logodiv {
     z-index: 1;
 
     grid-area: header;
     align-self: end;
 }
 
-.logo a {
+
+#hello {
+    opacity: 0;
+    animation-fill-mode: forwards;
+    animation-name: FadeIn;
+    animation-delay: 0.5s;
+    animation-duration: 1s;
+    transition-timing-function: ease-in;
+}
+
+.logo {
+    color: var(--c-primary);
+    opacity: 0;
+    animation-fill-mode: forwards;
+    animation-name: FadeIn;
+    animation-delay: 1s;
+    animation-duration: 1s;
+    transition-timing-function: ease-in;
+    
     font-size: 6.5rem;
     line-height: 0.8;
-    text-decoration: none;
+    font-weight: 200;
 }
 
 .type-primary {
     font-size: 3rem;
-    font-weight: 600;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+#subtitlesDiv{
+    position:fixed;
+    z-index:3;
+    bottom:2rem;
+    display:flex;
+    justify-content:center;
+    width:100%;
+
+    display: grid;
+    grid-template-columns: 1fr 10fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    ". sub ."
+}
+
+#subtitles{
+    background: var(--c-tertiary);
+    backdrop-filter: saturate(180%) blur(40px);
+    -webkit-backdrop-filter: saturate(180%) blur(40px);
+
+    grid-area: sub;
+    border-radius: var(--border-radius);
+    color: var(--c-secondary);
+    padding:.5vh 2vh;
+    text-align:center;
+
+    font-size: 3rem;
     line-height: 1.4;
 }
 
@@ -82,16 +141,6 @@ main {
     z-index: 2;
     grid-area: about;
 }
-
-.about-content {
-    z-index: 2;
-    height: 150vh;
-    display: flex;
-    align-items: center;
-    
-    color: rgba(0,0,0,0);
-}
-
 
 .timeline {
     grid-area: timeline;
@@ -141,6 +190,86 @@ main {
     grid-area: description;
 }
 
+.Menu{
+    position:fixed;
+    right:1rem;
+    top:1rem;
+    z-index:10;
+    text-align:right;
+    transform-origin:bottom right;
+    transform:rotate(-90deg) translateX(28px);
+    user-select: none;
+
+    opacity: 0;
+    animation-fill-mode: forwards;
+    animation-name: FadeIn;
+    animation-delay: 1.5s;
+    animation-duration: 1s;
+    transition-timing-function: ease-in;
+}
+.Menu nav{
+    font-size:1.5rem;
+}
+.Menu nav a{
+    margin-left:20px;
+    display:inline-block;
+    text-decoration:none;
+    cursor:pointer;
+    opacity:.5;
+    transition:opacity .5s
+}
+.Menu nav a.selected,.Menu nav a:hover{
+    opacity:1
+}
+.circle {
+    margin:0;
+    display:flex;
+    position:relative;
+    top:0.25rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background:var(--c-primary);
+    border-radius: 50%;
+}
+
+.sidebar{
+    z-index: 9;
+    position:fixed;
+    right:1rem;
+    bottom:1rem;
+    transform:rotate(-90deg) translateX(100%);
+    transform-origin:bottom right;
+    font-size:1.25rem;
+    user-select: none;
+
+    opacity: 0;
+    animation-fill-mode: forwards;
+    animation-name: FadeIn;
+    animation-delay: 1.5s;
+    animation-duration: 1s;
+    transition-timing-function: ease-in;
+}
+
+ul {
+    margin:0;
+    padding:0;
+}
+
+.sidebar li{
+    display:inline-block;
+    margin-right:20px
+}
+    
+.sidebar a{
+    opacity:.5;
+    text-decoration:none;
+    transition:opacity .5s
+}
+
+.sidebar a:hover{
+    opacity:1
+}
+
 footer {
     grid-area: footer;
     
@@ -158,36 +287,6 @@ footer .footer-content {
     line-height: 1.4;
     
     grid-area: p;
-}
-
-#subtitlesDiv{
-    position:fixed;
-    z-index:3;
-    bottom:2rem;
-    display:flex;
-    justify-content:center;
-    width:100%;
-
-    display: grid;
-    grid-template-columns: 1fr 10fr 1fr;
-    grid-template-rows: auto;
-    grid-template-areas:
-    ". sub ."
-}
-
-#subtitles{
-    background: var(--c-tertiary);
-    backdrop-filter: saturate(180%) blur(40px);
-    -webkit-backdrop-filter: saturate(180%) blur(40px);
-
-    grid-area: sub;
-    border-radius: var(--border-radius);
-    color: var(--c-secondary);
-    padding:.5vh 2vh;
-    text-align:center;
-
-    font-size: 3rem;
-    line-height: 1.4;
 }
 
 @media screen and (orientation:portrait){
@@ -211,4 +310,13 @@ footer .footer-content {
         ". co co ."
         ". description description .";
     }
-}                                                                                                                                           
+}
+
+@keyframes FadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+}

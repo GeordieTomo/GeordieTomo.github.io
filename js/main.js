@@ -1,8 +1,6 @@
 /*
 TODO LIST:
 
-- ppm
-
 - improve desktop lighting
 
 */
@@ -24,7 +22,7 @@ scene = new THREE.Scene();
 var camera,scene,renderer,composer;
 var dirlight1, dirlight2, rectlight, ambient;
 var time, t, tSmooth,deskSmooth;
-var screen, zedTex, mymiTex, abcTex, ytTex, starTex, screenState;
+var screen, zedTex, mymiTex, abcTex, ppmTex, ytTex, starTex, screenState;
 var glitch, glitchCounter, bloom;
 var hoverScreen = false;
 
@@ -43,7 +41,6 @@ const smoothAmt = 0.05;
 
 scene.fog = new THREE.Fog(0x090909,0,10000,10000);
 
-
 var terrainUniforms, terrainMat, plane, renderingPlane, screenUniforms;
 var windmill, blades;
 
@@ -56,7 +53,11 @@ const starGeo = new THREE.Geometry();
 const numStars = 1000;
 const subtitleDiv = document.createElement("div");
 const htmlSubtitleDiv = document.getElementById('subtitlesDiv');
-var subtitleState = 1;
+const homeButton = document.getElementById("home");
+const aboutButton = document.getElementById("about");
+const workButton = document.getElementById("work");
+const startTimeline = document.getElementById("start-timeline");
+var subtitleState = -1;
 
 function init() {
 	// camera
@@ -76,6 +77,7 @@ function init() {
 	zedTex = loader.load('src/zed.png');
 	mymiTex = loader.load('src/mymi.png');
 	abcTex = loader.load('src/abc.png');
+	ppmTex = loader.load('src/ppm.png');
 	ytTex = loader.load('src/yt.png');
 	starTex = loader.load('src/circle.png');
 
@@ -310,11 +312,13 @@ var animate = function () {
 
 	animateFog(map(tSmooth,2.68,4,0,1));
 
-	animateWindmill(map(tSmooth,3,4.2,0,1));
+	animateWindmill(map(tSmooth,3,4.1,0,1));
 
-	animateDesk(smoothstep(4.2,4.74,tSmooth),smoothstep(4.7,8.89,tSmooth));
+	animateDesk(smoothstep(4.1,4.64,tSmooth),smoothstep(4.6,10.3,tSmooth));
 
 	animateStars(smoothstep(1.6,4.47,tSmooth));
+
+	console.log(tSmooth);
 
 	composer.render();
 
@@ -345,6 +349,20 @@ function subtitles() {
 	} else if (subtitleState != 0) {
 		document.getElementById('subtitlesDiv').removeChild(htmlSubtitleDiv.lastChild);
 		subtitleState = 0;
+	}
+
+	if (tSmooth < 0.6) {
+		homeButton.className = "selected";
+		aboutButton.className = "null";
+		workButton.className = "null";
+	} else if (tSmooth < 4.1) {
+		homeButton.className = "null";
+		aboutButton.className = "selected";
+		workButton.className = "null";
+	} else {
+		homeButton.className = "null";
+		aboutButton.className = "null";
+		workButton.className = "selected";
 	}
 }
 
@@ -436,7 +454,7 @@ function animateDesk(pct,finalPct) {
 	
 		camera.position.y = 10 - finalPct * 7;
 		camera.position.x = - (deskGroup.position.z) * pointerSmooth.x * Math.PI / 4 * Math.min(1, window.innerHeight / window.innerWidth);
-		camera.position.z = - 10 * finalPct + 2*Math.cos(2 * pointerSmooth.x * Math.PI / 4 * Math.min(1, window.innerHeight / window.innerWidth));
+		camera.position.z = - 5 * finalPct + 2*Math.cos(2 * pointerSmooth.x * Math.PI / 4 * Math.min(1, window.innerHeight / window.innerWidth));
 		camera.lookAt(new THREE.Vector3(0,-2 + finalPct*5,-20));
 	
 		rectlight.position.z = deskGroup.position.z-1.7;
@@ -457,9 +475,13 @@ function animateDesk(pct,finalPct) {
 			screenUniforms['screenTexture'].value = abcTex;
 			screenState = 3;
 		}
+		else if (tSmooth < 10) {
+			screenUniforms['screenTexture'].value = ppmTex;
+			screenState = 4;
+		}
 		else {
 			screenUniforms['screenTexture'].value = ytTex;
-			screenState = 4;
+			screenState = 5;
 		}
 	}
 }
@@ -474,7 +496,7 @@ function animateStars(pct){
 		}
 	}
 
-	stars.rotation.x = plane.rotation.x + Math.PI/2 * (tSmooth<0.18);
+	stars.rotation.x = plane.rotation.x + Math.PI/2 * (tSmooth< 1.7);
 	stars.rotation.z = pct * 10;
 
 	starGeo.verticesNeedUpdate = true;
@@ -482,26 +504,26 @@ function animateStars(pct){
 }
 
 function glitchEffects() {
-	if (((tSmooth > 1.6 && tSmooth < 1.8) || (tSmooth > 4.1 && tSmooth < 4.3))) {
+	if (((tSmooth > 1.6 && tSmooth < 1.8) || (tSmooth > 4.0 && tSmooth < 4.2))) {
 		if (composer.passes.length < 2){
 			composer.addPass(glitch);
 			glitch.goWild = true;
 			glitchCounter = 0;
 		}
-		if ((tSmooth > 1.69 && tSmooth < 1.71) || (tSmooth > 4.19 && tSmooth < 4.21)) {
+		if ((tSmooth > 1.69 && tSmooth < 1.71) || (tSmooth > 4.09 && tSmooth < 4.11)) {
 			glitch.goWild = true;
 			glitchCounter = 0;
 		}
 
 		glitchCounter++;
-		if (glitchCounter > 20) {
+		if (glitchCounter > 10) {
 			glitch.goWild = false;
 		}
 
 	}
 	else if (composer.passes.length > 1) {
 		glitchCounter++;
-		if (glitchCounter > 20) {
+		if (glitchCounter > 10) {
 			composer.passes.pop();
 		}
 	}
@@ -572,6 +594,33 @@ window.onmousedown = function() {
 				window.open('https://www.youtube.com/c/geordie_tomo/');
 		}
 	}
+}
+
+homeButton.onclick = function() {
+	window.scroll({
+		top: 0,
+		behavior: "smooth"
+	});
+	return false;
+}
+
+aboutButton.onclick = function() {
+	// window.scrollTo(0, window.innerHeight * 0.65);
+	window.scroll({
+		top: window.innerHeight * 0.65,
+		behavior: "smooth"
+	});
+	return false;
+}
+
+workButton.onclick = function() {
+	window.scroll({
+		top: -document.body.getBoundingClientRect().top + startTimeline.getBoundingClientRect().bottom - window.innerHeight + 30,
+		behavior: "smooth"
+	});
+
+	console.log(startTimeline.getBoundingClientRect(),startTimeline.scrollHeight);
+	return false;
 }
 
 // helper functions (maths things)

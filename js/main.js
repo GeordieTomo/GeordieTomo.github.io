@@ -90,8 +90,6 @@ function init() {
 	dirlight2.intensity = 0;
 
 	rectlight = new THREE.RectAreaLight(0xffffff,1,8,2);
-	// var helper = new RectAreaLightHelper(rectlight);
-	// rectlight.add(helper);
 
 	scene.add(ambient,dirlight1,dirlight2,rectlight);
 	scene.background = new THREE.Color(0x090909);
@@ -529,11 +527,6 @@ function updateScroll() {
 	t = -document.body.getBoundingClientRect().top/(window.innerHeight);
 }
 document.body.onscroll = updateScroll;
-
-// TODO: BRING back this function
-// window.onbeforeunload = function() {  
-// 	window.scroll(0, 0);
-// }
 
 // update window size if it's changed
 function onWindowResize() {

@@ -284,7 +284,7 @@ function init() {
 	composer.addPass(new RenderPass(scene,camera));
 	glitch = new GlitchPass();
 
-	console.log("Hey there!\n\nThanks for stopping by.\n\nIf you want to check out the code for this website, it's all available to view on GitHub: https://github.com/GeordieTomo/GeordieTomo.github.io \n\nThis website was made with Three js and then just pure CSS and JavaScript.")
+	console.log("Hey there!\n\nThanks for stopping by.\n\nIf you want to check out the code for this website, it's all available to view on GitHub: https://github.com/GeordieTomo/GeordieTomo.github.io \n\nThis website was made with Three js, GLSL shaders and pure CSS and JavaScript.")
 }
 
 // --------------------------------------- MAIN LOOP -------------------------------------------
@@ -324,13 +324,13 @@ animate();
 function subtitles() {
 	if (tSmooth >= 0.6 && tSmooth < 1.7) {
 		if (subtitleState != 1) {	
-			subtitleDiv.innerHTML = "I'm an interdisciplinary creative, currently studying Electrical Engineering and Arts";
+			subtitleDiv.innerHTML = "I am an interdisciplinary creative, currently studying Electrical Engineering and Arts";
 			htmlSubtitleDiv.append(subtitleDiv);
 			subtitleState = 1;
 		}
 	} else if (tSmooth >= 1.7 && tSmooth < 3.1) {
 		if (subtitleState != 2) {	
-			subtitleDiv.innerHTML = "I was born in Japan, and I moved to Australia when I was 6 months old";
+			subtitleDiv.innerHTML = "I was born in Japan, and moved to Australia when I was 6 months old";
 			htmlSubtitleDiv.append(subtitleDiv);
 			subtitleState = 2;
 		}

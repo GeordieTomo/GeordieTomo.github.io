@@ -46,6 +46,7 @@ canvas {
     transition-timing-function: ease-in;
 }
 
+/* set links to be purple and semi-transparent */
 a {
     color: var(--c-primary);
     opacity:.6;
@@ -53,11 +54,12 @@ a {
     transition:opacity .5s;
 }
 
+/* on hover, fade to full opacity */
 a:hover {
     opacity: 1;
 }
 
-/* Main grid layout */
+/* Main grid layout for webpage */
 main {
     display: grid;
     grid-template-columns: 1fr 6fr 4fr 1fr;
@@ -70,6 +72,7 @@ main {
     "footer footer footer footer";
 }
 
+/* logo goes in the header section of the above grid */
 .logodiv {
     z-index: 1;
 
@@ -77,7 +80,7 @@ main {
     align-self: end;
 }
 
-
+/* set fade in delays for hello, my name is */
 #hello {
     opacity: 0;
     animation-fill-mode: forwards;
@@ -87,6 +90,7 @@ main {
     transition-timing-function: ease-in;
 }
 
+/* fade in an styling for full name (logo) */
 .logo {
     color: var(--c-primary);
     opacity: 0;
@@ -101,12 +105,14 @@ main {
     font-weight: 200;
 }
 
+/* set the primary font size and style - used for captions and headings */
 .type-primary {
     font-size: 3rem;
     font-weight: 400;
     line-height: 1.4;
 }
 
+/* fix position of the subtitles div */
 #subtitlesDiv{
     position:fixed;
     z-index:3;
@@ -122,6 +128,7 @@ main {
     ". sub ."
 }
 
+/* blur background of subtitles and round edges */
 #subtitles{
     background: var(--c-tertiary);
     backdrop-filter: saturate(180%) blur(40px);
@@ -137,19 +144,23 @@ main {
     line-height: 1.4;
 }
 
+/* set the about HTML elements to go in the about section of the grid */
 .about {
     z-index: 2;
     grid-area: about;
 }
 
+/* set the timeline in the timeline spot on the grid */
 .timeline {
     grid-area: timeline;
 }
 
+/* make the spacers 1.5 times the screen height of the device */
 .spacer {
     height: 150vh;
 }
 
+/* blurred background of the work history boxes */
 .timeline-entry {
     z-index: 2;
     background: var(--c-tertiary);
@@ -167,20 +178,24 @@ main {
     ". co description .";
 }
 
+/* use grid above to create headers on left */
 .timeline-co {
     margin: calc(var(--v-space)/2) 0 0;
     grid-area: co;
 }
 
+/* links to purple */
 .timeline-co a {
     color: var(--c-primary);
 }
 
+/* italic date */
 .timeline-time {
     display: block;
     font-style: italic;
 }
 
+/* and descriptions on right */
 .timeline-description {
     margin: calc(var(--v-space)/2) 0 0;
     font-weight: normal;
@@ -190,6 +205,7 @@ main {
     grid-area: description;
 }
 
+/* Set the navigation menu position to the right of page and rotate 90 degrees */
 .Menu{
     position:fixed;
     right:2rem;
@@ -207,6 +223,7 @@ main {
     animation-duration: 1s;
     transition-timing-function: ease-in;
 }
+/* create padding and margins for the menu */
 .Menu nav{
     font-size:1.5rem;
 }
@@ -218,9 +235,12 @@ main {
     opacity:.5;
     transition:opacity .5s
 }
+/* fade opacity based on ID
+allows for set opacity on scroll position */
 .Menu nav a.selected,.Menu nav a:hover{
     opacity:1
 }
+/* create a circle for the home button (just a sqaure with rounded corners) */
 .circle {
     margin:0;
     display:flex;
@@ -232,6 +252,7 @@ main {
     border-radius: 50%;
 }
 
+/* footer sidebar- basically same as menu, but rotate from the bottom corner */
 .sidebar{
     z-index: 9;
     position:fixed;
@@ -249,7 +270,7 @@ main {
     animation-duration: 1s;
     transition-timing-function: ease-in;
 }
-
+/* set footer sidebar padding and margins */
 ul {
     margin:0;
     padding:0;
@@ -270,6 +291,7 @@ ul {
     opacity:1
 }
 
+/* set mute button to top right of website */
 .mute{
     z-index: 9;
     position:fixed;
@@ -290,24 +312,21 @@ ul {
 .mute li{
     display:inline-block;
     margin-right:20px;
-}
-    
+}   
 #mute a{
     opacity:.5;
     text-decoration:none;
     transition:opacity .5s
 }
-
 #mute a:hover{
     opacity:1
 }
-
-
 #muteimg {
     width: 2rem;
     height: 2rem;
 }
 
+/* set scroll footer to footer position in grid */
 footer {
     grid-area: footer;
     
@@ -327,6 +346,7 @@ footer .footer-content {
     grid-area: p;
 }
 
+/* if on mobile (portrait device), push subtitles to top, change timeline entries to be more vertical */
 @media screen and (orientation:portrait){
     #subtitlesDiv{
         top:2rem;bottom:auto
@@ -350,6 +370,7 @@ footer .footer-content {
     }
 }
 
+/* fade in animation of opacity */
 @keyframes FadeIn {
     0% {
       opacity: 0;

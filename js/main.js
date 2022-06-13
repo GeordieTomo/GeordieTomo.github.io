@@ -34,6 +34,7 @@ const smoothAmt = 0.05;
 var terrainUniforms, terrainMat, plane, renderingPlane, screenUniforms;
 var windmill, blades;
 
+// variables for the 3D environment
 const earthGroup = new THREE.Group();
 var earth, travelLine, travelLinePct, travelLineCurve, travelLineGeo, travelLineMat, fogParticles, stars;
 const deskGroup = new THREE.Group();
@@ -41,6 +42,8 @@ const windmillGroup = new THREE.Group();
 const travelPointsVec = [new THREE.Vector3(0.13813,0.5789,0.803), new THREE.Vector3(0.23255,-0.59335,0.77)]
 const starGeo = new THREE.Geometry();
 const numStars = 1000;
+
+// html elements that are updated programatically
 const subtitleDiv = document.createElement("div");
 const htmlSubtitleDiv = document.getElementById('subtitlesDiv');
 const homeButton = document.getElementById("home");
@@ -51,6 +54,7 @@ const muteimg = document.getElementById("muteimg");
 const muteButton = document.getElementById("mute");
 var subtitleState = -1;
 
+// audio variables
 var backgroundMusic = new Audio("src/music.wav");
 var chimes = [];
 var chimeNumber = 1;
@@ -58,6 +62,12 @@ var scrollAudio = new Audio("src/scrollchime.wav");
 
 var audioMuted = true;
 
+/* ------------------ INIT -------------------------
+
+sets all of the values of the variables to their default
+states. creates materials and objects for 3D environment.
+
+*/
 function init() {
 	// camera
 	var aspect = width/height;
@@ -281,11 +291,18 @@ function init() {
 	composer.addPass(new RenderPass(scene,camera));
 	glitch = new GlitchPass();
 
-	console.log("Hey there!\n\nThanks for stopping by.\n\nIf you want to check out the code for this website, it's all available to view on GitHub: https://github.com/GeordieTomo/GeordieTomo.github.io \n\nThis website was made with Three js, GLSL shaders and pure CSS and JavaScript.")
+	console.log("Hey there!\n\nThanks for stopping by.\n\nIf you want to check out the code for this website, it's all available to view on GitHub: https://github.com/GeordieTomo/GeordieTomo.github.io \n\nThis website was made with Three js, GLSL shaders and pure CSS and JavaScript, and the music was made by me :)")
 }
 
-// --------------------------------------- MAIN LOOP -------------------------------------------
+/* --------------------------------------- MAIN LOOP -------------------------------------------
+
+controls high level logic, timing, and mouse tracking. As well as at which point in the scrolling 
+process to set another animation to start and end. These animations are all abstracted to seperate
+functions.
+
+*/
 var animate = function () {
+	// run animate as a loop
 	requestAnimationFrame( animate );
 
 	time = clock.getElapsedTime();
@@ -298,6 +315,11 @@ var animate = function () {
 	}
 	tDiff = Math.max(0,Math.min(0.85,tDiff));
 	scrollAudio.volume = tDiff;
+	if (audioMuted) {
+		for (var i = 0; i < chimes.length; i++) {
+			chimes[i].pause();
+		}
+	}
 
 	tSmooth += (t - tSmooth) * smoothAmt;
 
@@ -324,10 +346,13 @@ var animate = function () {
 
 };
 
+// run the init and animate functions
 init();
 animate();
 
+// --- display the subtitles at the bottom or top of screen, based on scroll position ----
 function subtitles() {
+	// main scroll position checking
 	if (tSmooth >= 0.6 && tSmooth < 1.7) {
 		if (subtitleState != 1) {	
 			subtitleDiv.innerHTML = "I am an interdisciplinary creative, currently studying Electrical Engineering and Arts";
@@ -351,6 +376,7 @@ function subtitles() {
 		subtitleState = 0;
 	}
 
+	// also check scroll position and update button highlighting on the right hand side
 	if (tSmooth < 0.6) {
 		homeButton.className = "selected";
 		aboutButton.className = "null";
@@ -366,6 +392,7 @@ function subtitles() {
 	}
 }
 
+// move the fog particles (purple blue background of the windmill)
 function animateFog(pct) {
 	fogParticles.forEach(p => {
 		p.rotation.z -=0.001;
@@ -376,13 +403,16 @@ function animateFog(pct) {
 
 }
 
+// animate the terrain
 function animateTerrain(pct) {
+	// see terrain shaders - in index.html
 	terrainUniforms['time'].value = time;
 	terrainUniforms['scale'].value = 6.*smoothstep(0,1,pct) + 1;
 
 	plane.rotation.x = smoothstep(0,1,pct) * Math.PI / 3 - Math.PI / 3;
 	plane.position.z = - 500 + 330*smoothstep(0,1,pct);
 
+	// remove once off screen
 	if (pct > 1.) {
 		scene.remove(plane);
 		renderingPlane = false;
@@ -393,14 +423,18 @@ function animateTerrain(pct) {
 	
 }
 
+// animate the earth
 function animateEarth(pct) {
 
+	// animate the line into the screen
 	if (pct > 0.1) {
 		travelLinePct = Math.min(1,travelLinePct + 0.002);
 	} else {
 		travelLinePct = Math.max(0, travelLinePct - 0.005);
 	}
 
+	// set the position scale and rotation
+	// rotation is a sin function but also modified by the users cursor
 	earthGroup.position.z = -2;
 	earthGroup.rotation.x = -pointerSmooth.y * Math.PI / 16 + 0.125*Math.cos(time/2);
 	earthGroup.rotation.y = -0.125 + 0.125*Math.sin(time/2) + pointerSmooth.x * Math.PI / 16;
@@ -409,6 +443,7 @@ function animateEarth(pct) {
 	earthGroup.remove(travelLine);
 	earthGroup.scale.set(0.5,0.5,0.5);
 
+	// only add the travel line when it's percentage is greater than 0
 	if (travelLinePct > 0) {
 		travelLineCurve = getCurve(travelPointsVec[0],travelPointsVec[1], travelLinePct);
 		travelLineGeo = new THREE.TubeGeometry(travelLineCurve,20,.0015,8,false);
@@ -419,19 +454,25 @@ function animateEarth(pct) {
 	earth.rotation.y = travelLine.rotation.y + 2.5;
 }
 
+// animate the windmill
 function animateWindmill(pct) {
+	// rotate the blades
 	if (blades) {
 		blades.rotation.y -= 0.05 * pct;
 	}
 	
+	// set the position
 	windmillGroup.position.z = -200 * pct;
 	windmillGroup.position.y = 10;
 	windmillGroup.position.x = -20;
 
 }
 
+// animate the desk
 function animateDesk(pct,finalPct) {
-
+	// update intensity of lighting
+	// start all faded out, bring in at the start, and then slowly fade out
+	// until it's just the rect light left (simulating the screen light)
 	rectlight.intensity = 3*pct;
 	dirlight1.intensity = pct - finalPct;
 	dirlight2.intensity = pct - finalPct;
@@ -441,6 +482,7 @@ function animateDesk(pct,finalPct) {
 	deskSmooth += (pct - deskSmooth) * smoothAmt;
 	pct = deskSmooth;
 	
+	// update desk and camera positions
 	if (pct <= 0.3 && pPct <= 0) {
 		deskGroup.position.z = 10;
 		camera.position.y = 0;
@@ -463,6 +505,7 @@ function animateDesk(pct,finalPct) {
 
 		screenUniforms['fade'].value = pct;
 
+		// set the screen image based on current scroll position
 		if (tSmooth < 5.5) {
 			screenUniforms['screenTexture'].value = zedTex;
 			screenState = 1;
@@ -486,7 +529,9 @@ function animateDesk(pct,finalPct) {
 	}
 }
 
+// animate the stars
 function animateStars(pct){
+	// move forwards until they reach 1000, then teleport back to -1000
 	for (var i = 0; i < numStars; i++) {
 		starGeo.colors[i] = new THREE.Color(starGeo.colors[i].b + 20);
 		starGeo.vertices[i].z += 1;
@@ -496,13 +541,16 @@ function animateStars(pct){
 		}
 	}
 
+	// rotate stars to match terrain, and then add 90 degrees once the earth is in view
 	stars.rotation.x = plane.rotation.x + Math.PI/2 * (tSmooth< 1.7);
+	// rotate the whole group of stars, based on the scroll position
 	stars.rotation.z = pct * 10;
 
 	starGeo.verticesNeedUpdate = true;
 	starGeo.colorsNeedUpdate = true;
 }
 
+// add postprocessing effects, specifically glitch, which covers up the less smooth transitions
 function glitchEffects() {
 	if (((tSmooth > 1.6 && tSmooth < 1.8) || (tSmooth > 4.0 && tSmooth < 4.2))) {
 		if (composer.passes.length < 2){
@@ -530,6 +578,10 @@ function glitchEffects() {
 }
 
 // ----------------------------------------------------------------------------------------------
+
+
+
+
 // tracking the document scroll amount when it changes
 function updateScroll() {
 	t = -document.body.getBoundingClientRect().top/(window.innerHeight);
@@ -573,7 +625,9 @@ const onMouseMove = (e) => {
 }
 window.addEventListener('mousemove', onMouseMove);
 
+// check mouse down
 window.onmousedown = function() {
+	// open hyperlinks, if the user clicks on the computer screen
 	if (hoverScreen) {
 		switch(screenState) {
 			case 1:
@@ -589,18 +643,26 @@ window.onmousedown = function() {
 				window.open('https://www.youtube.com/c/geordie_tomo/');
 		}
 	}
+	// if the audio isn't muted
 	if (!audioMuted) {
+		// play a chime
 		audioChime();
 	}
 }
 
+// audio chime function
 function audioChime () {
+	// increment the chime number anwhere from 1-3.
+	// The 5 audio files are an arpegio from the root, to third, to fifth, to seventh, to octave
+	// so incrementing by a few leads to pleasant sounding transitions
 	chimeNumber = (chimeNumber + Math.floor(Math.random() * 3)) % 5 + 1;
 	chimes[chimes.length] = new Audio("src/chime" + chimeNumber + ".wav");
 	chimes[chimes.length - 1].play();
-	setTimeout(function(){chimes.pop();}, 5000);
+	// remove the chime once it's played out
+	setTimeout(function(){chimes.shift();}, 5000);
 }
 
+// smooth scroll to the top of the docuemnt when the button is clicked
 homeButton.onclick = function() {
 	window.scroll({
 		top: 0,
@@ -609,8 +671,8 @@ homeButton.onclick = function() {
 	return false;
 }
 
+// smooth scroll to about when the button is clicked
 aboutButton.onclick = function() {
-	// window.scrollTo(0, window.innerHeight * 0.65);
 	window.scroll({
 		top: window.innerHeight * 0.65,
 		behavior: "smooth"
@@ -618,6 +680,7 @@ aboutButton.onclick = function() {
 	return false;
 }
 
+// smooth scroll to the work history section when the button is clicked
 workButton.onclick = function() {
 	window.scroll({
 		top: -document.body.getBoundingClientRect().top + startTimeline.getBoundingClientRect().bottom - window.innerHeight + 30,
@@ -627,6 +690,7 @@ workButton.onclick = function() {
 	return false;
 }
 
+// update the audio to be muted or playing
 muteButton.onclick = function () {
 	audioMuted = !audioMuted;
 	if (audioMuted) {
@@ -644,11 +708,10 @@ muteButton.onclick = function () {
 		scrollAudio.volume = 0;
 		scrollAudio.loop = true;
 	}
-
-	
 }
 
 // helper functions (maths things)
+// find the curve between two points on a sphere (for creating the earth line)
 function getCurve(p1,p2,f) {
 	var v1 = new THREE.Vector3().copy(p1);
 	var v2 = new THREE.Vector3().copy(p2);
@@ -666,10 +729,12 @@ function getCurve(p1,p2,f) {
 	return new THREE.CatmullRomCurve3(points);
 }
 
+// map a value between a range
 function map(x, minIn, maxIn, minOut, maxOut) {
 	return (x - minIn) * (maxOut - minOut) / (maxIn - minIn) + minOut;
 }
 
+// smooth step gives a smooth interpolation between two values
 function smoothstep(edge0, edge1, x) {
 	var t = Math.max(Math.min((x-edge0) / (edge1 - edge0), 1), 0);
 	return t*t*(3-2*t);

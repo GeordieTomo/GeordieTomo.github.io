@@ -315,11 +315,6 @@ var animate = function () {
 	}
 	tDiff = Math.max(0,Math.min(0.85,tDiff));
 	scrollAudio.volume = tDiff;
-	if (audioMuted) {
-		for (var i = 0; i < chimes.length; i++) {
-			chimes[i].pause();
-		}
-	}
 
 	tSmooth += (t - tSmooth) * smoothAmt;
 

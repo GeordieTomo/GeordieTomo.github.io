@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<!-- tab data -->
 	<meta charset="utf-8">
 	<title>Geordie McClelland</title>
 	<link rel="stylesheet" href="./src/style.css">
 	<link rel="icon" type="image/x-icon" href="/src/tomo.png">
 </head>
 <body>
+	<!-- Main webpage HTML -->
 	<main>
+		<!-- right sidebar menu for navigation -->
 		<div class="Menu">
 			<nav>
 				<a class="null" id="work">Work</a>
@@ -15,16 +18,18 @@
 				<a class="selected" id="home"><span class="circle"></span></a>
 			</nav>
 		</div>
-
+		<!-- intro name at top of page -->
 		<div class="logodiv">
 			<p class="type-primary" id="hello">hello, my name is</p>
 			<h1 class="logo">Geordie<br>McClelland</h1>
 		</div>
+		<!-- spacers to add scroll length to website. Originally had content but was replaced with subtitles -->
 		<div class="about">
 			<p class="spacer"></p>
 			<p class="spacer"></p>
 			<p class="spacer"></p>
 		</div>
+		<!-- work history panels -->
 		<section class="timeline">
 			<div class="spacer">
 				<article class="timeline-entry" id="start-timeline">
@@ -59,23 +64,34 @@
 				</article>
 			</div>
 		</section>
+		<!-- footer sidebar, with youtube and email link -->
 		<div class="sidebar">
 			<ul>
 				<li><a href="mailto:geordie.t.mcclelland@gmail.com">Email</a></li>
 				<li><a href="https://www.youtube.com/c/geordietomo" target="_blank" rel="noopener">YouTube</a></li>
 			</ul>
 		</div>
+		<!-- mute button -->
 		<div class="mute">
 			<a class="muted" id="mute"><img id="muteimg" src="src/mute.png"></a>
 		</div>
+		<!-- more descriptive footer which is scrolled to -->
 		<footer>
 			<div class="footer-content">
 				<p>Examples of my creative and technological work can be found on my <a href="https://www.youtube.com/c/geordietomo" target="_blank" rel="noopener">YouTube channel</a>. You can contact me via <a href="mailto:geordie.t.mcclelland@gmail.com">Email</a>.</p>
 			</div>
 		</footer>
+		<!-- container div for the subtitles -->
 		<div id="subtitlesDiv">
 		</div>
 	</main>
+	<!--
+		
+		!! Important !!
+		
+		The shaders are basically like custom materials for THREE.js, which allow me to create interesting visuals without being too taxing on the computer 
+	
+	-->
 	<div id="shaders">
 		<script id="terrainVertex" type="x-shader/x-vertex">
 			vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
@@ -151,14 +167,17 @@
 				return 130.0 * dot(m, g);
 			}
 
+			// shared variable for landscape colour
 			varying float vAmount;
+			// time and scale passed in via THREE.js
 			uniform float time;
 			uniform float scale;
 			
 			void main() {
-
+				
 				vec2 st = uv*scale - vec2(.5,.5)*scale + vec2(0.,time/4.);
-
+				// use the noise function above to generate mountains and valleys
+				// layers of noise to create a more rough terrain
 				vAmount = snoise(st) 
 				+ 0.5*snoise(st*2.) 
 				+ 0.25*snoise(st*4.)
@@ -168,18 +187,22 @@
 				+ 0.015625*snoise(st*64.)
 				+ 0.0078125*snoise(st*128.);
 
+				// send heightmap to a shared variable for the frag shader to colour the terrain based on
 				vAmount = (vAmount / 1.9921875);
 
+				// standard vertex shader projection stuff, set the height to 40
 				vec3 newPosition = position + normal * 40.0 * vAmount / scale;
-			
+				
 				gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition,1);
 			}
 		</script>
 		<script id="terrainFragment" type="x-shader/x-fragment">
+			// same variables as vertex shader
 			varying float vAmount;
 			uniform float scale;
 
 			void main() {
+				// setup the layers of different colours
 				vec3 water = (smoothstep(-.3, 0.35, vAmount) - smoothstep(0.34,0.35,vAmount)) * vec3(0.,0.,1.);
 				vec3 sand = (smoothstep(0.3,0.32,vAmount) - smoothstep(0.3,0.4,vAmount)) * vec3(0.76, 0.7, 0.5);
 				vec3 grass = (smoothstep(0.3,0.46,vAmount) - smoothstep(0.33,0.6,vAmount)) * vec3(0.0, 0.6, 0.01);
@@ -187,12 +210,14 @@
 				vec3 snow = (smoothstep(0.7,0.8,vAmount)) * vec3(1., 1., 1.);
 				vec3 col = (water+sand+grass+rock+snow);
 				
+				// add all the layers together
 				float alpha = smoothstep(7.,6.5,scale);
 
 				gl_FragColor = vec4(col, alpha);
 			}
 		</script>
 		<script id="earthVertex" type="x-shader/x-vertex">
+			// doesn't really do anything, but is used to pass the UVs and normals to the fragment shader through the varying type vectors
 			varying vec2 vertexUV;
 			varying vec3 vertexNormal;
 
@@ -203,12 +228,14 @@
 			}
 		</script>
 		<script id="earthFragment" type="x-shader/x-fragment">
+			// pass in the image of the earth through THREE.js
 			uniform sampler2D earthTexture;
-			
+			// varyings passed from vertex shader
 			varying vec2 vertexUV;
 			varying vec3 vertexNormal;
 
 			void main() {
+				// brighten the shader around the outside, creating an "atmosphere"
 				float intensity = 1.05 - dot(vertexNormal, vec3(0.0,0.0,1.0));
 				vec3 atmosphere = vec3(0.3,0.6,1.0) * pow(intensity,1.5);
 
@@ -218,6 +245,8 @@
 			}
 		</script>
 		<script id="atmosVertex" type="x-shader/x-vertex">
+			// atmosphere shader sits behind the earth
+			// pass normals through to the fragment shader
 			varying vec3 vertexNormal;
 
 			void main() {
@@ -229,11 +258,14 @@
 			varying vec3 vertexNormal;
 
 			void main() {
+				// set intensity based on normals, creating a nice halo, faded effect around the earth
 				float intensity = pow(0.35 - dot(vertexNormal, vec3(0.,0.,1.)),2.);
 				gl_FragColor = vec4(0.3,0.6,1.,1.) * intensity;
 			}
 		</script>	
 		<script id="screenVertex" type="x-shader/x-vertex">
+			// this shader is for the computer screen
+			// pass UV's to fragment shader
 			varying vec2 vertexUV;
 
 			void main() {
@@ -242,7 +274,9 @@
 			}
 		</script>
 		<script id="screenFragment" type="x-shader/x-fragment">
+			// basically just display a texture
 			uniform sampler2D screenTexture;
+			// fade it in or out based on a variable passed from the javascript
 			uniform float fade;
 
 			varying vec2 vertexUV;
@@ -253,7 +287,9 @@
 			}
 		</script>
 	</div>
+	<!-- load the javascript file -->
 	<script type="module" src="js/main.js"></script>
+	<!-- open source website tracking - view counts and regions viewed from -->
 	<script data-goatcounter="https://geordietomo.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 </body>

@@ -270,6 +270,43 @@ ul {
     opacity:1
 }
 
+.mute{
+    z-index: 9;
+    position:fixed;
+    left:2rem;
+    top:2rem;
+    transform-origin:bottom right;
+    font-size:1.25rem;
+    user-select: none;
+
+    opacity: 0;
+    animation-fill-mode: forwards;
+    animation-name: FadeIn;
+    animation-delay: 1.5s;
+    animation-duration: 1s;
+    transition-timing-function: ease-in;
+}
+
+.mute li{
+    display:inline-block;
+    margin-right:20px;
+}
+    
+#mute a{
+    opacity:.5;
+    text-decoration:none;
+    transition:opacity .5s
+}
+
+#mute a:hover{
+    opacity:1
+}
+
+#muteimg {
+    width: 2rem;
+    height: 2rem;
+}
+
 footer {
     grid-area: footer;
     

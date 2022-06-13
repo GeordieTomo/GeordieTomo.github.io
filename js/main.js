@@ -1,10 +1,3 @@
-/*
-TODO LIST:
-
-- improve desktop lighting
-
-*/
-
 // import three js
 import * as THREE from 'https://unpkg.com/three@0.119.1/build/three.module.js';
 // import obj loader
@@ -20,8 +13,8 @@ scene = new THREE.Scene();
 
 var camera,scene,renderer,composer;
 var dirlight1, dirlight2, rectlight, ambient;
-var time, t, tSmooth,deskSmooth;
-var screen, zedTex, mymiTex, abcTex, ppmTex, ytTex, starTex, screenState;
+var time, t, tSmooth, tDiff,deskSmooth;
+var screen, zedTex, mymiTex, abcTex, ppmTex, ytTex, starTex, muteTex, unmuteTex, screenState;
 var glitch, glitchCounter;
 var hoverScreen = false;
 
@@ -37,8 +30,6 @@ const raycaster = new THREE.Raycaster();
 
 // how much to smooth out the changes
 const smoothAmt = 0.05;
-
-scene.fog = new THREE.Fog(0x090909,0,10000,10000);
 
 var terrainUniforms, terrainMat, plane, renderingPlane, screenUniforms;
 var windmill, blades;
@@ -56,7 +47,16 @@ const homeButton = document.getElementById("home");
 const aboutButton = document.getElementById("about");
 const workButton = document.getElementById("work");
 const startTimeline = document.getElementById("start-timeline");
+const muteimg = document.getElementById("muteimg");
+const muteButton = document.getElementById("mute");
 var subtitleState = -1;
+
+var backgroundMusic = new Audio("src/music.wav");
+var chimes = [];
+var chimeNumber = 1;
+var scrollAudio = new Audio("src/scrollchime.wav");
+
+var audioMuted = true;
 
 function init() {
 	// camera
@@ -79,6 +79,8 @@ function init() {
 	ppmTex = loader.load('src/ppm.png');
 	ytTex = loader.load('src/yt.png');
 	starTex = loader.load('src/circle.png');
+	muteTex = loader.load('src/mute.png');
+	unmuteTex = loader.load('src/unmute.png');
 
 	// lights
 	ambient = new THREE.AmbientLight(0xffffff,0.3);
@@ -111,10 +113,7 @@ function init() {
 	// ----------- creating materials ---------------
 	terrainUniforms = {
 		time: { value: 0.0},
-		scale: { value: 0.3},
-		fogColor: { value: scene.fog.color },
-		fogNear: { value: scene.fog.near },
-		fogFar: { value: scene.fog.far }
+		scale: { value: 0.3}
 	};
 	terrainMat = new THREE.ShaderMaterial({
 		uniforms: terrainUniforms,
@@ -266,13 +265,13 @@ function init() {
 			scene.add(fog);
 		}
 	});
-
-
+	
 	subtitleDiv.id = "subtitles";
 
 	// getting document scroll amount
 	t = -document.body.getBoundingClientRect().top/(window.innerHeight);
 	tSmooth = t;
+	tDiff = 0;
 	deskSmooth = 0;
 	// track global time
 	time = clock.getElapsedTime();
@@ -290,6 +289,15 @@ var animate = function () {
 	requestAnimationFrame( animate );
 
 	time = clock.getElapsedTime();
+
+	if (Math.abs(t - tSmooth) > 0.1) {
+		tDiff += 0.025;
+	}
+	else {
+		tDiff -= 0.005;
+	}
+	tDiff = Math.max(0,Math.min(0.85,tDiff));
+	scrollAudio.volume = tDiff;
 
 	tSmooth += (t - tSmooth) * smoothAmt;
 
@@ -581,6 +589,16 @@ window.onmousedown = function() {
 				window.open('https://www.youtube.com/c/geordie_tomo/');
 		}
 	}
+	if (!audioMuted) {
+		audioChime();
+	}
+}
+
+function audioChime () {
+	chimeNumber = (chimeNumber + Math.floor(Math.random() * 3)) % 5 + 1;
+	chimes[chimes.length] = new Audio("src/chime" + chimeNumber + ".wav");
+	chimes[chimes.length - 1].play();
+	setTimeout(function(){chimes.pop();}, 5000);
 }
 
 homeButton.onclick = function() {
@@ -606,8 +624,28 @@ workButton.onclick = function() {
 		behavior: "smooth"
 	});
 
-	console.log(startTimeline.getBoundingClientRect(),startTimeline.scrollHeight);
 	return false;
+}
+
+muteButton.onclick = function () {
+	audioMuted = !audioMuted;
+	if (audioMuted) {
+		muteimg.src = "src/mute.png";
+		backgroundMusic.pause();
+		scrollAudio.pause();
+		for (var i = 0; i < chimes.length; i++) {
+			chimes[i].pause();
+		}
+	} else {
+		muteimg.src = "src/unmute.png";
+		backgroundMusic.play();
+		backgroundMusic.loop = true;
+		scrollAudio.play();
+		scrollAudio.volume = 0;
+		scrollAudio.loop = true;
+	}
+
+	
 }
 
 // helper functions (maths things)

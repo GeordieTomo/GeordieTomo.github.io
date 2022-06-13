@@ -65,6 +65,9 @@
 				<li><a href="https://www.youtube.com/c/geordietomo" target="_blank" rel="noopener">YouTube</a></li>
 			</ul>
 		</div>
+		<div class="mute">
+			<a class="muted" id="mute"><img id="muteimg" src="src/mute.png"></a>
+		</div>
 		<footer>
 			<div class="footer-content">
 				<p>Examples of my creative and technological work can be found on my <a href="https://www.youtube.com/c/geordietomo" target="_blank" rel="noopener">YouTube channel</a>. You can contact me via <a href="mailto:geordie.t.mcclelland@gmail.com">Email</a>.</p>
@@ -174,11 +177,6 @@
 		</script>
 		<script id="terrainFragment" type="x-shader/x-fragment">
 			varying float vAmount;
-
-			uniform vec3 fogColor;
-			uniform float fogNear;
-			uniform float fogFar;
-
 			uniform float scale;
 
 			void main() {
@@ -189,8 +187,6 @@
 				vec3 snow = (smoothstep(0.7,0.8,vAmount)) * vec3(1., 1., 1.);
 				vec3 col = (water+sand+grass+rock+snow);
 				
-				float depth = gl_FragCoord.z / gl_FragCoord.w;
-				float fogFactor = smoothstep(fogNear,fogFar,depth);
 				float alpha = smoothstep(7.,6.5,scale);
 
 				gl_FragColor = vec4(col, alpha);

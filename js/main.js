@@ -635,7 +635,11 @@ window.onmousedown = function() {
 				window.open('https://ashburtonbaptist.org.au/');
 				break;
 			case 4:
+				window.open('https://www.preciousplasticmonash.com/');
+				break;
+			case 5:
 				window.open('https://www.youtube.com/c/geordie_tomo/');
+				break;
 		}
 	}
 	// if the audio isn't muted

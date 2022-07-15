@@ -313,7 +313,7 @@ var animate = function () {
 	else {
 		tDiff -= 0.005;
 	}
-	tDiff = Math.max(0,Math.min(0.85,tDiff));
+	tDiff = Math.max(0,Math.min(0.15,tDiff));
 	scrollAudio.volume = tDiff;
 
 	tSmooth += (t - tSmooth) * smoothAmt;

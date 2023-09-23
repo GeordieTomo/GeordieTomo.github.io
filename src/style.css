@@ -400,11 +400,15 @@ footer .footer-content {
     }
 
     .plaintext {
-        font-size: 3.4vw;
+        font-size: 3vw;
         line-height: 1.4;
         width: 95%;
     
         text-align: center;
+    }
+
+    .spotify {
+        height: 35vh;
     }
 }
 

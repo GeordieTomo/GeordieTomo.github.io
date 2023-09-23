@@ -11,6 +11,8 @@ img { border: 0; }
     --c-primary: rgb(185, 159, 255);
     --c-secondary: rgba(255, 255, 255, 0.85);
     --c-tertiary: rgba(64, 64, 64, 0.5);
+    --c-plaintext: rgba(20, 20, 20, 0.85);
+    --c-plainlinks: rgb(81, 0, 121);
     
     --v-space: 6rem;
     --border-radius: 1vw;
@@ -32,6 +34,15 @@ html {
     box-sizing: border-box;
 }
 
+.plain-html {
+    font-size: 14px;
+    line-height: 1.5;
+    background: rgb(254, 251, 245);
+    font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;;
+    color: var(--c-plaintext);
+    box-sizing: border-box;
+}
+
 /* canvas for the three js program */
 canvas {
     position: fixed;
@@ -49,6 +60,13 @@ canvas {
 /* set links to be purple and semi-transparent */
 a {
     color: var(--c-primary);
+    opacity:.6;
+    text-decoration:none;
+    transition:opacity .5s;
+}
+
+.a-plain {
+    color: var(--c-plainlinks);
     opacity:.6;
     text-decoration:none;
     transition:opacity .5s;
@@ -203,6 +221,18 @@ main {
     line-height: 1.4;
     
     grid-area: description;
+}
+
+.plaintext {
+    margin: auto;
+    font-weight: normal;
+    font-size: 1rem;
+    line-height: 1.4;
+    width: 400px;
+
+    text-align: center;
+    white-space: nowrap;
+
 }
 
 /* Set the navigation menu position to the right of page and rotate 90 degrees */
@@ -367,6 +397,14 @@ footer .footer-content {
         ". hr hr ."
         ". co co ."
         ". description description .";
+    }
+
+    .plaintext {
+        font-size: 3.4vw;
+        line-height: 1.4;
+        width: 95%;
+    
+        text-align: center;
     }
 }
 

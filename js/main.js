@@ -350,7 +350,7 @@ function subtitles() {
 	// main scroll position checking
 	if (tSmooth >= 0.6 && tSmooth < 1.7) {
 		if (subtitleState != 1) {	
-			subtitleDiv.innerHTML = "I am an interdisciplinary creative, currently studying Electrical Engineering and Arts";
+			subtitleDiv.innerHTML = "I am an interdisciplinary creative, primarily working in Music and Game Development";
 			htmlSubtitleDiv.append(subtitleDiv);
 			subtitleState = 1;
 		}
@@ -362,7 +362,7 @@ function subtitles() {
 		}
 	}  else if (tSmooth >= 3.1 && tSmooth < 4.1) {
 		if (subtitleState != 3) {	
-			subtitleDiv.innerHTML = "I love music, electronics, basketball and I am passionate about all things sustainable";
+			subtitleDiv.innerHTML = "I love electronics, basketball, a bit of photography and I am passionate about all things sustainable";
 			htmlSubtitleDiv.append(subtitleDiv);
 			subtitleState = 3;
 		}
